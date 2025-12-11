@@ -162,10 +162,10 @@ export default function AssessmentRunPage() {
           </div>
           <Link
             href="/portal/assessment/results"
-            className={`block w-full rounded-full py-3 text-center text-white font-semibold transition ${
+            className={`block w-full rounded-full py-3 text-center font-semibold transition text-white ${
               allAnswered
-                ? "bg-[#FE5E17] hover:bg-[#e65512]"
-                : "bg-gray-300 pointer-events-none"
+                ? "bg-[#FE5E17] hover:bg-[#e65512] dark:bg-[#FE5E17] dark:hover:bg-[#e65512]"
+                : "bg-gray-300 pointer-events-none dark:bg-[#FE5E17]/70 dark:text-white"
             }`}
           >
             {allAnswered ? "Submit & view results" : "Answer all questions to continue"}

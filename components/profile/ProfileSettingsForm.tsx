@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useMemo, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
@@ -165,6 +165,42 @@ export function ProfileSettingsForm({
     }
   }
 
+  const isProfileComplete = (data: typeof fields) => {
+    const required = [
+      data.name,
+      data.businessType,
+      data.website,
+      data.country,
+      data.size,
+      data.monthlyOrders,
+      data.description,
+      data.additionalDetails,
+      data.messagingUrl,
+      data.phone,
+      data.email,
+      data.linkedin,
+      data.tiktokUrl,
+      data.instagramUrl,
+      data.xUrl,
+      data.role
+    ];
+    return required.every((value) => value && String(value).trim().length > 0);
+  };
+
+  // Keep the completion flag in sync in real time (helps demo mode without saves)
+  useEffect(() => {
+    const profileIsComplete = isProfileComplete(fields);
+    try {
+      if (profileIsComplete) {
+        localStorage.setItem("portalDetailsComplete", "true");
+      } else {
+        localStorage.removeItem("portalDetailsComplete");
+      }
+    } catch (e) {
+      console.warn("Could not persist details completion flag", e);
+    }
+  }, [fields]);
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSaving(true);
@@ -219,7 +255,22 @@ export function ProfileSettingsForm({
         setProfilePublic(body.publicProfileEnabled);
       }
 
-      setStatus("Profile saved successfully.");
+      const profileIsComplete = isProfileComplete(fields);
+      try {
+        if (profileIsComplete) {
+          localStorage.setItem("portalDetailsComplete", "true");
+        } else {
+          localStorage.removeItem("portalDetailsComplete");
+        }
+      } catch (e) {
+        console.warn("Could not persist details completion flag", e);
+      }
+
+      setStatus(
+        profileIsComplete
+          ? "Profile saved successfully."
+          : "Profile saved. Fill in all fields to unlock the task."
+      );
     } catch (err: any) {
       setError(err.message || "Something went wrong");
     } finally {

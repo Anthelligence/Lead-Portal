@@ -65,9 +65,14 @@ export function MobilePortalNav() {
       setHasRoi(localStorage.getItem(STORAGE_KEYS.roi) === "true");
     };
     read();
-    const handler = () => read();
-    window.addEventListener("storage", handler);
-    return () => window.removeEventListener("storage", handler);
+    const handleStorage = () => read();
+    const handleFocus = () => read();
+    window.addEventListener("storage", handleStorage);
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("focus", handleFocus);
+    };
   }, []);
 
   const isReady = (key: NavItem["key"]) => {

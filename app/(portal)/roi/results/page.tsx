@@ -44,6 +44,15 @@ export default function RoiResultsPage() {
     )}`;
   }, [result, scenario]);
 
+  useEffect(() => {
+    if (!result) return;
+    try {
+      localStorage.setItem("roiResultReady", "true");
+    } catch (err) {
+      console.warn("Could not persist ROI completion state", err);
+    }
+  }, [result]);
+
   const handleDownloadPdf = useCallback(async () => {
     if (!reportRef.current) return;
     setIsExporting(true);
@@ -273,7 +282,11 @@ export default function RoiResultsPage() {
               >
                 {card.title}
               </p>
-              <div className="text-2xl font-bold">
+              <div
+                className={`text-2xl font-bold ${
+                  card.tone === "primary" ? "text-white" : "text-[#1d1d1d]"
+                }`}
+              >
                 {card.formatter
                   ? card.formatter(card.value)
                   : formatCurrency(card.value)}

@@ -99,6 +99,7 @@ export function ActivationForm({ token }: ActivationFormProps) {
           country: (payload as any).country ?? ""
         };
         localStorage.setItem("activationContext", JSON.stringify(activationContext));
+        localStorage.setItem("portalDetailsComplete", "true");
       } catch (e) {
         console.warn("Failed to persist activation context", e);
       }
