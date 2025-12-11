@@ -37,9 +37,10 @@ const items: NavItem[] = [
   },
   {
     key: "profile",
-    label: "Profile",
+    label: "Settings",
     icon: "👤",
-    href: "/portal/settings/profile"
+    href: "/portal/settings/account",
+    fallbackHref: "/portal/settings/profile"
   }
 ];
 

@@ -1,5 +1,5 @@
 import { isDemoMode } from "@/lib/config";
-import { demoAssessment, demoCompany, demoTokenState } from "@/lib/demo";
+import { demoAssessment, demoCompany, demoTokenState, demoUser } from "@/lib/demo";
 import { supabaseAdmin } from "./supabase/admin";
 
 export async function getTokenState(token: string) {
@@ -118,5 +118,26 @@ export async function getProfileSettings(slug: string) {
     assessment: latestAssessment,
     publicProfileEnabled: tokenRow?.public_profile_enabled ?? false
   };
+}
+
+export async function getAccountSettings(userId: string | null) {
+  if (!userId) return null;
+
+  if (!supabaseAdmin || isDemoMode) {
+    return {
+      id: userId || demoUser.id,
+      name: demoUser.name,
+      email: demoUser.email
+    };
+  }
+
+  const { data, error } = await supabaseAdmin
+    .from("users")
+    .select("id, name, email")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data;
 }
 

@@ -3,14 +3,19 @@
 @tailwind utilities;
 
 :root {
-  color: #1d1d1d;
-  background: #fafafa;
-  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+  color-scheme: light;
+  --page-bg: #fafafa;
+  --text-color: #1d1d1d;
+  --muted-text: #4b5563;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --input-bg: #ffffff;
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 body {
-  @apply bg-[#fafafa] text-[#1d1d1d];
+  background: var(--page-bg);
+  color: var(--text-color);
 }
 
 a {
@@ -22,10 +27,96 @@ button {
 }
 
 .card {
-  @apply rounded-xl bg-white shadow-soft;
+  @apply rounded-xl shadow-soft;
+  background-color: var(--card-bg) !important;
+  color: var(--text-color);
+  border: 1px solid var(--card-border);
 }
 
 .section-shell {
   @apply px-4 py-6 sm:px-6;
+}
+
+input,
+textarea,
+select {
+  background-color: var(--input-bg) !important;
+  color: var(--text-color) !important;
+  border-color: var(--card-border) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted-text);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page-bg: #0d1117;
+    --text-color: #f3f4f6;
+    --muted-text: #9ca3af;
+    --card-bg: #111827;
+    --card-border: #1f2937;
+    --input-bg: #0b1220;
+  }
+
+  a {
+    color: #fb923c;
+  }
+
+  .card {
+    box-shadow: none;
+  }
+
+  .bg-gray-50 {
+    background-color: #111827 !important;
+  }
+
+  .bg-gray-100 {
+    background-color: #1f2937 !important;
+  }
+
+  .bg-white {
+    background-color: var(--card-bg) !important;
+  }
+
+  .bg-white\/95 {
+    background-color: color-mix(in srgb, var(--card-bg) 95%, transparent) !important;
+  }
+
+  .border-gray-100,
+  .border-gray-200,
+  .border-gray-300 {
+    border-color: var(--card-border) !important;
+  }
+
+  .bg-\[\#f8fafc\] {
+    background-color: #0d1117 !important;
+  }
+
+  .text-gray-900 {
+    color: var(--text-color) !important;
+  }
+
+  .text-gray-800 {
+    color: var(--text-color) !important;
+  }
+
+  .text-gray-500 {
+    color: var(--muted-text) !important;
+  }
+
+  .text-\[\#1d1d1d\] {
+    color: var(--text-color) !important;
+  }
+
+  .text-gray-600 {
+    color: var(--muted-text) !important;
+  }
+
+  .text-gray-700 {
+    color: #e5e7eb !important;
+  }
 }
 
